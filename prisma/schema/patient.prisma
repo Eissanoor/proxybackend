@@ -1,0 +1,49 @@
+model Patient {
+    id              String    @id @default(uuid())
+    name            String?
+    nationality     String?
+    sex             String?
+    idNumber        String?
+    age             Int?
+    mobileNumber    String?
+    status          String? 
+    cheifComplaint  String?
+    ticket          String?
+    ticketNumber    Int?
+    barcode         String?   @db.Text
+    departmentId    Decimal?  @db.Decimal(19, 0)
+    department      tblDepartment? @relation(fields: [departmentId], references: [tblDepartmentID])
+    userId          String?
+    user            User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    bedId           String?   // New field for bed assignment
+    bed             Bed?      @relation(fields: [bedId], references: [id])  // Relation to Bed model
+    state           Int?      @default(0)
+    callPatient     Boolean?  @default(false)
+    beginTime       DateTime?
+    endTime         DateTime?
+    vitalSigns      VitalSign[]
+
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+    @@index([userId])
+    @@index([bedId])  // Add index for bed lookups
+}
+
+model VitalSign {
+    id              String    @id @default(uuid())
+    patientId       String?
+    patient         Patient?  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+    bp              String?
+    height          String?
+    temp            String?
+    spo2            String?
+    weight          String?
+    hr              String?
+    rbs             String?
+    rr              String?
+    timeVs          DateTime?
+    allergies       Boolean?
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+}
+
