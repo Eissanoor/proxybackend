@@ -29,6 +29,10 @@ app.use("/assets", express.static(path.join(__dirname, "../assets")));
 app.use("/api/v1", routes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.get("/",(req,res)=>{
+  res.send("Welcome to the API")
+});
+
 // Error Routes
 app.use(notFoundHandler);
 app.use(errorHandler);
