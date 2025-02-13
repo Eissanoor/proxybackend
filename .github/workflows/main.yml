@@ -22,6 +22,8 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Run tests
+      run: npm test
 
   deploy:
     runs-on: ubuntu-latest
@@ -31,10 +33,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-  
 
     - name: Install dependencies
       run: npm install
+
+    - name: Debug SSH Setup
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ls -la ~/.ssh
+        cat ~/.ssh/id_rsa
 
     - name: Deploy to Remote PC
       env:
@@ -43,15 +53,14 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         PROJECT_DIR: 'E:/proxybackend/proxybackend'
       run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        echo -e "Host $REMOTE_HOST\n\tUser $REMOTE_USER\n\tIdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
+        chmod 600 ~/.ssh/config
         ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
-        ssh $REMOTE_USER@$REMOTE_HOST << 'EOF'
+        ssh $REMOTE_HOST << 'EOF'
         cd $PROJECT_DIR
         git pull origin main
         npm install
-        npm run prisma-push  # Run Prisma migrations if needed
-        npm run sentry:sourcemaps  # Upload source maps to Sentry
-        pm2 restart all  # Restart the application using PM2
+        npm run prisma-push
+        npm run sentry:sourcemaps
+        pm2 restart all
         EOF
