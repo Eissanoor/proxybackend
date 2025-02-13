@@ -15,7 +15,7 @@ jobs:
 
       - name: Setup SSH Key
         run: |
-          echo "${{ secrets.cicd }}" >
+          echo "${{ secrets.cicd }}"
          
 
       - name: Deploy to Windows PC
