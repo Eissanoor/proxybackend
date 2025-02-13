@@ -23,9 +23,16 @@ jobs:
       - name: Deploy to Windows PC
         shell: bash
         run: |
-          ssh -o StrictHostKeyChecking=no eissaanoor@192.168.43.114 << 'EOF'
-          cd E:/proxybackend/proxybackend
-          git pull origin main
-          npm install
-          npm start
-          EOF
+          for i in {1..5}; do
+            ssh -o StrictHostKeyChecking=no Eissa noor@192.168.43.114 << 'EOF'
+            cd E:/proxybackend/proxybackend
+            git pull origin main
+            npm install
+            npm start
+            EOF
+            if [ $? -eq 0 ]; then
+              break
+            fi
+            echo "Retrying SSH connection in 10 seconds..."
+            sleep 10
+          done
