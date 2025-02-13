@@ -56,10 +56,14 @@ jobs:
         mkdir -p ~/.ssh
         chmod 700 ~/.ssh
 
-        # Write the SSH config file
-        echo "Host $REMOTE_HOST" > ~/.ssh/config
-        echo "    User $REMOTE_USER" >> ~/.ssh/config
-        echo "    IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+        # Write the SSH config file using a multi-line string
+        cat <<EOF > ~/.ssh/config
+        Host $REMOTE_HOST
+            User $REMOTE_USER
+            IdentityFile ~/.ssh/id_rsa
+        EOF
+
+        # Set correct permissions for the config file
         chmod 600 ~/.ssh/config
 
         # Debug: Print the SSH config file
