@@ -16,12 +16,16 @@ jobs:
       - name: Setup SSH Key
         run: |
           echo "${{ secrets.cicd }}"
-         
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Deploy to Windows PC
+        shell: bash
         run: |
-          ssh eissaanoor@192.168.43.114 "
-          cd E:/proxybackend/proxybackend &&
-          git pull origin main &&
-          npm install &&
-          npm start"
+          ssh -o StrictHostKeyChecking=no eissaanoor@192.168.43.114 << 'EOF'
+          cd E:/proxybackend/proxybackend
+          git pull origin main
+          npm install
+          npm start
+          EOF
