@@ -1,1 +1,29 @@
+name: Deploy to Windows Remote PC
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.cicd }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 192.168.43.114 >> ~/.ssh/known_hosts
+
+      - name: Deploy to Windows PC
+        run: |
+          ssh eissaanoor@192.168.43.114 "
+          cd E:/proxybackend/proxybackend &&
+          git pull origin main &&
+          npm install &&
+          npm start"
