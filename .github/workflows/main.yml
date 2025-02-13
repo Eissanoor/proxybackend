@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           for i in {1..5}; do
-            ssh -o StrictHostKeyChecking=no Eissanoor@192.168.43.114 << 'EOF'
+            ssh -o StrictHostKeyChecking=no Eissanoor@192.168.43.114 << `EOF'
             cd E:/proxybackend/proxybackend
             git pull origin main
             npm install
