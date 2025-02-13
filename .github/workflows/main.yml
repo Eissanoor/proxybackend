@@ -15,7 +15,6 @@ jobs:
 
       - name: Setup SSH Key
         run: |
-          mkdir -p ~/.ssh
           echo "${{ secrets.cicd }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 192.168.43.114 >> ~/.ssh/known_hosts
