@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to Windows PC
         run: |
-          ssh eissaanoor@192.168.43.114 "
+          ssh eissaanoor@192.168.43.114"
           cd E:/proxybackend/proxybackend &&
           git pull origin main &&
           npm install &&
