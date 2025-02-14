@@ -56,8 +56,6 @@ jobs:
         mkdir -p ~/.ssh
         chmod 700 ~/.ssh
 
-        # Write the SSH config file using a single echo command
-        echo -e "Host $REMOTE_HOST\n\tUser $REMOTE_USER\n\tIdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
 
         # Set correct permissions for the config file
         chmod 600 ~/.ssh/config
@@ -65,8 +63,6 @@ jobs:
         # Debug: Print the SSH config file
         cat ~/.ssh/config
 
-        # Add the remote host to known_hosts
-        ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
 
         # SSH into the remote host and deploy
         ssh $REMOTE_HOST << 'EOF'
