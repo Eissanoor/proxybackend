@@ -30,7 +30,7 @@ app.use("/api/v1", routes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/",(req,res)=>{
-  res.send("Welcome");
+  res.send("Welcome to the chat app");
 });
 
 // Error Routes
