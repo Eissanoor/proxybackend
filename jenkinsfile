@@ -12,7 +12,7 @@ pipeline {
                     branches: [[name: '*/main']], 
                     extensions: [], 
                     userRemoteConfigs: [[
-                        credentialsId: 'EissanoorID', 
+                        credentialsId: 'Eissanoor-Credentials', 
                         url: 'https://github.com/Eissanoor/proxybackend.git'
                     ]]
                 )
