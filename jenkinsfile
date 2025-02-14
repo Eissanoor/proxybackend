@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         ENV_FILE_PATH = "C:\\ProgramData\\Jenkins\\.jenkins\\jenkinsEnv\\proxybackend"
-        // ENV_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\projects\\QMS_V2\\qms_api_nartec"
     }
 
     stages {
@@ -28,7 +27,7 @@ pipeline {
         }
 
         stage('Manage PM2 and Install Dependencies') {
-          
+            steps {
                 echo "Installing dependencies for QMS..."
                 bat 'npm install'
                 echo "Generating Prisma files..."
