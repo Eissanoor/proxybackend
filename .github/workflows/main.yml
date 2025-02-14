@@ -57,15 +57,9 @@ jobs:
         chmod 700 ~/.ssh
 
 
-        # Set correct permissions for the config file
-        chmod 600 ~/.ssh/config
-
-        # Debug: Print the SSH config file
-        cat ~/.ssh/config
+        
 
 
-        # SSH into the remote host and deploy
-        ssh $REMOTE_HOST << 'EOF'
         cd $PROJECT_DIR
         git pull origin main
         npm install
