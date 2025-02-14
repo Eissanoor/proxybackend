@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    environment {
+        ENV_FILE_PATH = "C:\\ProgramData\\Jenkins\\.jenkins\\jenkinsEnv\\proxybackend"
+        // ENV_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\projects\\QMS_V2\\qms_api_nartec"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scmGit(
+                    branches: [[name: '*/main']], 
+                    extensions: [], 
+                    userRemoteConfigs: [[
+                        credentialsId: 'EissanoorID', 
+                        url: 'https://github.com/Eissanoor/proxybackend.git'
+                    ]]
+                )
+            }
+        }
+
+        stage('Setup Environment File') {
+            steps {
+                echo "Copying environment file to the backend..."
+                bat "copy \"${ENV_FILE_PATH}\" \"%WORKSPACE%\\.env\""
+            }
+        }
+
+        stage('Manage PM2 and Install Dependencies') {
+          
+                echo "Installing dependencies for QMS..."
+                bat 'npm install'
+                echo "Generating Prisma files..."
+                bat 'npx prisma generate'
+                echo "Restarting PM2 process..."
+                bat 'npm start'
+            }
+        }
+    }
+}
