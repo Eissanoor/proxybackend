@@ -29,7 +29,7 @@ pipeline {
         stage('Manage PM2 and Install Dependencies') {
             steps {
                 echo "Installing dependencies for QMS..."
-                bat 'npm install'
+                bat 'npm install -force'
                 echo "Generating Prisma files..."
                 bat 'npx prisma generate'
                 echo "Restarting PM2 process..."
