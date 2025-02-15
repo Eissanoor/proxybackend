@@ -34,8 +34,7 @@ pipeline {
                 bat 'npm install -force'
                 echo "Generating Prisma files..."
                 bat 'npx prisma generate'
-                echo "Restarting npm process..."
-                bat 'npm start'
+               
             }
         }
     }
