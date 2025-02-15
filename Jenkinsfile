@@ -5,6 +5,12 @@ pipeline {
         ENV_FILE_PATH = "C:\\ProgramData\\Jenkins\\.jenkins\\jenkinsEnv\\proxybackend"
     }
 
+    // Add triggers for automatic builds on code push
+    triggers {
+        pollSCM('* * * * *') // Poll SCM every minute (fallback)
+        githubPush() // Trigger on GitHub push events (if using GitHub)
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -29,12 +35,11 @@ pipeline {
         stage('Manage PM2 and Install Dependencies') {
             steps {
                 echo "Stopping npm process..."
-                bat"rmdir /s /q node_modules"
+                bat "rmdir /s /q node_modules"
                 echo "Installing dependencies for QMS..."
-                bat 'npm install -force'
+                bat 'npm install --force'
                 echo "Generating Prisma files..."
                 bat 'npx prisma generate'
-               
             }
         }
     }
