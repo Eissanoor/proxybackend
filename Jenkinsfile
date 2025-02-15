@@ -34,8 +34,8 @@ pipeline {
 
         stage('Manage PM2 and Install Dependencies') {
             steps {
-                echo "Stopping npm process..."
-                bat "rmdir /s /q node_modules"
+                // echo "Stopping npm process..."
+                // bat "rmdir /s /q node_modules"
                 echo "Installing dependencies for QMS..."
                 bat 'npm install --force'
                 echo "Generating Prisma files..."
